@@ -1,0 +1,1485 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "College API Documentation",
+        "description": "API sučelje za upravljanje studentima, odjelima i profesorima u sustavu fakulteta.",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Lokalni razvojni server"
+        }
+    ],
+    "paths": {
+        "/api/departments": {
+            "get": {
+                "tags": [
+                    "Odjeli"
+                ],
+                "summary": "Dohvati listu odjela",
+                "description": "Vraća paginiranu listu svih odjela.",
+                "operationId": "getDepartmentsList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Broj stranice za paginaciju",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uspješno dohvaćanje odjela",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Računarstvo"
+                                                    },
+                                                    "hod_id": {
+                                                        "type": "integer",
+                                                        "example": 1,
+                                                        "nullable": true
+                                                    },
+                                                    "head_of_department": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "first_name": {
+                                                                "type": "string",
+                                                                "example": "Pero"
+                                                            },
+                                                            "last_name": {
+                                                                "type": "string",
+                                                                "example": "Perić"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Odjeli"
+                ],
+                "summary": "Kreiraj novi odjel",
+                "operationId": "storeDepartment",
+                "requestBody": {
+                    "description": "Podaci za novi odjel",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 30,
+                                        "example": "Novi Odjel"
+                                    },
+                                    "hod_id": {
+                                        "description": "ID postojećeg profesora (faculty) kao HOD-a",
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Odjel uspješno kreiran",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Novi Odjel"
+                                        },
+                                        "hod_id": {
+                                            "type": "integer",
+                                            "example": 1,
+                                            "nullable": true
+                                        },
+                                        "head_of_department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "first_name": {
+                                                    "type": "string",
+                                                    "example": "Pero"
+                                                },
+                                                "last_name": {
+                                                    "type": "string",
+                                                    "example": "Perić"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Greška validacije",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "name": [
+                                                    "The name field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/departments/{department_id}": {
+            "get": {
+                "tags": [
+                    "Odjeli"
+                ],
+                "summary": "Dohvati odjel po ID-u",
+                "operationId": "getDepartmentById",
+                "parameters": [
+                    {
+                        "name": "department_id",
+                        "in": "path",
+                        "description": "ID odjela",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uspješno dohvaćanje odjela",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Računarstvo"
+                                        },
+                                        "hod_id": {
+                                            "type": "integer",
+                                            "example": 1,
+                                            "nullable": true
+                                        },
+                                        "head_of_department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "first_name": {
+                                                    "type": "string",
+                                                    "example": "Pero"
+                                                },
+                                                "last_name": {
+                                                    "type": "string",
+                                                    "example": "Perić"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "students": {
+                                            "description": "Lista studenata na odjelu (ako je učitana)",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        },
+                                        "faculty_members": {
+                                            "description": "Lista profesora na odjelu (ako je učitana)",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Odjel nije pronađen",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Department] 99"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Odjeli"
+                ],
+                "summary": "Ažuriraj odjel",
+                "operationId": "updateDepartment",
+                "parameters": [
+                    {
+                        "name": "department_id",
+                        "in": "path",
+                        "description": "ID odjela za ažuriranje",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Podaci za ažuriranje odjela",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "maxLength": 30,
+                                        "example": "Ažurirani Odjel"
+                                    },
+                                    "hod_id": {
+                                        "description": "ID postojećeg profesora (faculty) kao HOD-a",
+                                        "type": "integer",
+                                        "example": 2,
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Odjel uspješno ažuriran",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "example": "Ažurirani Odjel"
+                                        },
+                                        "hod_id": {
+                                            "type": "integer",
+                                            "example": 2,
+                                            "nullable": true
+                                        },
+                                        "head_of_department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "first_name": {
+                                                    "type": "string",
+                                                    "example": "Ana"
+                                                },
+                                                "last_name": {
+                                                    "type": "string",
+                                                    "example": "Anić"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Odjel nije pronađen"
+                    },
+                    "422": {
+                        "description": "Greška validacije"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Odjeli"
+                ],
+                "summary": "Obriši odjel",
+                "operationId": "deleteDepartment",
+                "parameters": [
+                    {
+                        "name": "department_id",
+                        "in": "path",
+                        "description": "ID odjela za brisanje",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Odjel uspješno obrisan"
+                    },
+                    "404": {
+                        "description": "Odjel nije pronađen"
+                    },
+                    "409": {
+                        "description": "Konflikt pri brisanju (npr. odjel je povezan s drugim zapisima)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error_details": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/faculty": {
+            "get": {
+                "tags": [
+                    "Profesori"
+                ],
+                "summary": "Dohvati listu profesora",
+                "description": "Vraća paginiranu listu svog nastavnog osoblja.",
+                "operationId": "getFacultyList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Broj stranice za paginaciju",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uspješno dohvaćanje profesora",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "first_name": {
+                                                        "type": "string",
+                                                        "example": "Pero"
+                                                    },
+                                                    "last_name": {
+                                                        "type": "string",
+                                                        "example": "Perić"
+                                                    },
+                                                    "department_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "061123456",
+                                                        "nullable": true
+                                                    },
+                                                    "department": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Računarstvo"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    },
+                                                    "is_hod_of_department": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Računarstvo"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Profesori"
+                ],
+                "summary": "Kreiraj novog profesora",
+                "operationId": "storeFaculty",
+                "requestBody": {
+                    "description": "Podaci za novog profesora",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "department_id"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "maxLength": 25,
+                                        "example": "Novi"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "maxLength": 25,
+                                        "example": "Profesor"
+                                    },
+                                    "department_id": {
+                                        "description": "ID postojećeg odjela",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "maxLength": 10,
+                                        "example": "062333444",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profesor uspješno kreiran",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 10
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Novi"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "Profesor"
+                                        },
+                                        "department_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "062333444",
+                                            "nullable": true
+                                        },
+                                        "department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Računarstvo"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "is_hod_of_department": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Greška validacije",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "first_name": [
+                                                    "The first name field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/faculty/{faculty_id}": {
+            "get": {
+                "tags": [
+                    "Profesori"
+                ],
+                "summary": "Dohvati profesora po ID-u",
+                "operationId": "getFacultyById",
+                "parameters": [
+                    {
+                        "name": "faculty_id",
+                        "in": "path",
+                        "description": "ID profesora",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uspješno dohvaćanje profesora",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Pero"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "Perić"
+                                        },
+                                        "department_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "061123456",
+                                            "nullable": true
+                                        },
+                                        "department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Računarstvo"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "is_hod_of_department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Računarstvo"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "subjects": {
+                                            "description": "Lista predmeta koje profesor predaje (ako je učitana)",
+                                            "type": "array",
+                                            "items": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Profesor nije pronađen"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Profesori"
+                ],
+                "summary": "Ažuriraj profesora",
+                "operationId": "updateFaculty",
+                "parameters": [
+                    {
+                        "name": "faculty_id",
+                        "in": "path",
+                        "description": "ID profesora za ažuriranje",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Podaci za ažuriranje profesora",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "maxLength": 25,
+                                        "example": "Ažurirani Pero"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "maxLength": 25,
+                                        "example": "Ažurirani Perić"
+                                    },
+                                    "department_id": {
+                                        "description": "ID postojećeg odjela",
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "maxLength": 10,
+                                        "example": "060555666",
+                                        "nullable": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Profesor uspješno ažuriran",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Ažurirani Pero"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "Ažurirani Perić"
+                                        },
+                                        "department_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "060555666",
+                                            "nullable": true
+                                        },
+                                        "department": {
+                                            "type": "object",
+                                            "nullable": true
+                                        },
+                                        "is_hod_of_department": {
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Profesor nije pronađen"
+                    },
+                    "422": {
+                        "description": "Greška validacije"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Profesori"
+                ],
+                "summary": "Obriši profesora",
+                "operationId": "deleteFaculty",
+                "parameters": [
+                    {
+                        "name": "faculty_id",
+                        "in": "path",
+                        "description": "ID profesora za brisanje",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Profesor uspješno obrisan"
+                    },
+                    "404": {
+                        "description": "Profesor nije pronađen"
+                    },
+                    "409": {
+                        "description": "Konflikt pri brisanju (npr. profesor je HOD ili povezan s predmetima)",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "error_details": {
+                                            "type": "string",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/students": {
+            "get": {
+                "tags": [
+                    "Studenti"
+                ],
+                "summary": "Dohvati listu studenata",
+                "description": "Vraća paginiranu listu svih studenata.",
+                "operationId": "getStudentsList",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Broj stranice za paginaciju",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uspješno dohvaćanje studenata",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "roll_number": {
+                                                        "type": "integer",
+                                                        "format": "int64",
+                                                        "example": 170101
+                                                    },
+                                                    "first_name": {
+                                                        "type": "string",
+                                                        "example": "Marko"
+                                                    },
+                                                    "last_name": {
+                                                        "type": "string",
+                                                        "example": "Marković"
+                                                    },
+                                                    "department_id": {
+                                                        "type": "integer",
+                                                        "example": 1,
+                                                        "nullable": true
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "063123456",
+                                                        "nullable": true
+                                                    },
+                                                    "admission_date": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2023-09-01"
+                                                    },
+                                                    "cet_marks": {
+                                                        "type": "integer",
+                                                        "example": 120
+                                                    },
+                                                    "department": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Computer"
+                                                            }
+                                                        },
+                                                        "type": "object",
+                                                        "nullable": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "links": {
+                                            "properties": {
+                                                "first": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/students?page=1"
+                                                },
+                                                "last": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/students?page=5"
+                                                },
+                                                "prev": {
+                                                    "type": "string",
+                                                    "example": null,
+                                                    "nullable": true
+                                                },
+                                                "next": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/students?page=2",
+                                                    "nullable": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "properties": {
+                                                "current_page": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "from": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "last_page": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://localhost/api/students"
+                                                },
+                                                "per_page": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "to": {
+                                                    "type": "integer",
+                                                    "example": 15
+                                                },
+                                                "total": {
+                                                    "type": "integer",
+                                                    "example": 75
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Studenti"
+                ],
+                "summary": "Kreiraj novog studenta",
+                "operationId": "storeStudent",
+                "requestBody": {
+                    "description": "Podaci za novog studenta",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "admission_date",
+                                    "cet_marks"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "maxLength": 25,
+                                        "example": "Ana"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "maxLength": 25,
+                                        "example": "Anić"
+                                    },
+                                    "department_id": {
+                                        "description": "ID postojećeg odjela",
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "maxLength": 10,
+                                        "example": "099123456",
+                                        "nullable": true
+                                    },
+                                    "admission_date": {
+                                        "description": "YYYY-MM-DD",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-15"
+                                    },
+                                    "cet_marks": {
+                                        "type": "integer",
+                                        "example": 135
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Student uspješno kreiran",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "roll_number": {
+                                            "description": "Automatski generiran roll_number",
+                                            "type": "integer",
+                                            "format": "int64"
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Ana"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "Anić"
+                                        },
+                                        "department_id": {
+                                            "type": "integer",
+                                            "example": 1,
+                                            "nullable": true
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "099123456",
+                                            "nullable": true
+                                        },
+                                        "admission_date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2024-01-15"
+                                        },
+                                        "cet_marks": {
+                                            "type": "integer",
+                                            "example": 135
+                                        },
+                                        "department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Computer"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Greška validacije",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "first_name": [
+                                                    "The first name field is required."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/students/{roll_num}": {
+            "get": {
+                "tags": [
+                    "Studenti"
+                ],
+                "summary": "Dohvati studenta po roll broju",
+                "operationId": "getStudentByRollNum",
+                "parameters": [
+                    {
+                        "name": "roll_num",
+                        "in": "path",
+                        "description": "Roll broj studenta",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uspješno dohvaćanje studenta",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "roll_number": {
+                                            "type": "integer",
+                                            "format": "int64",
+                                            "example": 170101
+                                        },
+                                        "first_name": {
+                                            "type": "string",
+                                            "example": "Marko"
+                                        },
+                                        "last_name": {
+                                            "type": "string",
+                                            "example": "Marković"
+                                        },
+                                        "department_id": {
+                                            "type": "integer",
+                                            "example": 1,
+                                            "nullable": true
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "063123456",
+                                            "nullable": true
+                                        },
+                                        "admission_date": {
+                                            "type": "string",
+                                            "format": "date",
+                                            "example": "2023-09-01"
+                                        },
+                                        "cet_marks": {
+                                            "type": "integer",
+                                            "example": 120
+                                        },
+                                        "department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Computer"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Student nije pronađen",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Student] 99999"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Studenti"
+                ],
+                "summary": "Ažuriraj studenta",
+                "operationId": "updateStudent",
+                "parameters": [
+                    {
+                        "name": "roll_num",
+                        "in": "path",
+                        "description": "Roll broj studenta za ažuriranje",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Podaci za ažuriranje studenta",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string",
+                                        "maxLength": 25,
+                                        "example": "Ana Marija"
+                                    },
+                                    "last_name": {
+                                        "type": "string",
+                                        "maxLength": 25,
+                                        "example": "Anić Popović"
+                                    },
+                                    "department_id": {
+                                        "description": "ID postojećeg odjela",
+                                        "type": "integer",
+                                        "example": 1,
+                                        "nullable": true
+                                    },
+                                    "phone": {
+                                        "type": "string",
+                                        "maxLength": 10,
+                                        "example": "099654321",
+                                        "nullable": true
+                                    },
+                                    "admission_date": {
+                                        "description": "YYYY-MM-DD",
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2024-01-16"
+                                    },
+                                    "cet_marks": {
+                                        "type": "integer",
+                                        "example": 140
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Student uspješno ažuriran",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "roll_number": {
+                                            "type": "integer",
+                                            "format": "int64"
+                                        },
+                                        "first_name": {
+                                            "type": "string"
+                                        },
+                                        "last_name": {
+                                            "type": "string"
+                                        },
+                                        "department_id": {
+                                            "type": "integer",
+                                            "nullable": true
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "nullable": true
+                                        },
+                                        "admission_date": {
+                                            "type": "string",
+                                            "format": "date"
+                                        },
+                                        "cet_marks": {
+                                            "type": "integer"
+                                        },
+                                        "department": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer"
+                                                },
+                                                "name": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Student nije pronađen",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Student] 99999"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Greška validacije",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "field_name": [
+                                                    "Error message for field_name."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Studenti"
+                ],
+                "summary": "Obriši studenta",
+                "operationId": "deleteStudent",
+                "parameters": [
+                    {
+                        "name": "roll_num",
+                        "in": "path",
+                        "description": "Roll broj studenta za brisanje",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Student uspješno obrisan (Nema sadržaja u odgovoru)"
+                    },
+                    "404": {
+                        "description": "Student nije pronađen",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "No query results for model [App\\\\Models\\\\Student] 99999"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Odjeli",
+            "description": "API Endpoints za upravljanje odjelima"
+        },
+        {
+            "name": "Profesori",
+            "description": "API Endpoints za upravljanje profesorima (nastavnim osobljem)"
+        },
+        {
+            "name": "Studenti",
+            "description": "API Endpoints za upravljanje studentima"
+        }
+    ]
+}
