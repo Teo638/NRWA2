@@ -24,8 +24,22 @@ use Illuminate\Support\Facades\Validator;
  *     name="Studenti",
  *     description="API Endpoints za upravljanje studentima"
  * )
+ * @OA\Tag(
+ *     name="Odjeli",
+ *     description="API Endpoints za upravljanje odjelima"
+ * )
+ * @OA\Tag(
+ *     name="Profesori",
+ *     description="API Endpoints za upravljanje profesorima (nastavnim osobljem)"
+ * )
+ *
+ * @OA\SecurityScheme(
+ *      securityScheme="basicAuth",
+ *      type="http",
+ *      scheme="basic",
+ *      description="HTTP Basic Authentication. Koristite email kao korisničko ime i odgovarajuću lozinku."
+ * )
  */
-
 class StudentController extends Controller
 {
     /**
@@ -76,6 +90,14 @@ class StudentController extends Controller
      *                  @OA\Property(property="to", type="integer", example=15),
      *                  @OA\Property(property="total", type="integer", example=75)
      *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *      )
      * )
@@ -129,6 +151,14 @@ class StudentController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="The given data was invalid."),
      *              @OA\Property(property="errors", type="object", example={"first_name": {"The first name field is required."}})
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *      )
      * )
@@ -189,6 +219,14 @@ class StudentController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="No query results for model [App\\Models\\Student] 99999")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *      )
      * )
@@ -258,6 +296,14 @@ class StudentController extends Controller
      *              @OA\Property(property="message", type="string", example="The given data was invalid."),
      *              @OA\Property(property="errors", type="object", example={"field_name": {"Error message for field_name."}})
      *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
      *      )
      * )
      */
@@ -305,6 +351,14 @@ class StudentController extends Controller
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(property="message", type="string", example="No query results for model [App\\Models\\Student] 99999")
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *      )
      * )

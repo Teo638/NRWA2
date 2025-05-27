@@ -89,6 +89,22 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -192,6 +208,22 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -281,6 +313,22 @@
                                         "message": {
                                             "type": "string",
                                             "example": "No query results for model [App\\\\Models\\\\Department] 99"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -380,6 +428,22 @@
                     },
                     "422": {
                         "description": "Greška validacije"
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -419,6 +483,22 @@
                                         "error_details": {
                                             "type": "string",
                                             "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -518,6 +598,22 @@
                                         },
                                         "meta": {
                                             "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -647,6 +743,22 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -740,6 +852,22 @@
                     },
                     "404": {
                         "description": "Profesor nije pronađen"
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -841,6 +969,22 @@
                     },
                     "422": {
                         "description": "Greška validacije"
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -880,6 +1024,22 @@
                                         "error_details": {
                                             "type": "string",
                                             "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -1032,6 +1192,22 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -1174,6 +1350,22 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1264,6 +1456,22 @@
                                         "message": {
                                             "type": "string",
                                             "example": "No query results for model [App\\\\Models\\\\Student] 99999"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
                                         }
                                     },
                                     "type": "object"
@@ -1424,6 +1632,22 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
             },
@@ -1463,8 +1687,33 @@
                                 }
                             }
                         }
+                    },
+                    "401": {
+                        "description": "Neautoriziran pristup / Potrebna autentifikacija.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "basicAuth": {
+                "type": "http",
+                "scheme": "basic",
+                "description": "HTTP Basic Authentication. Koristite email kao korisničko ime i odgovarajuću lozinku."
             }
         }
     },

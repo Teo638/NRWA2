@@ -49,6 +49,14 @@ class DepartmentController extends Controller
      *              @OA\Property(property="links", type="object"),
      *              @OA\Property(property="meta", type="object")
      *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
      *      )
      * )
      */
@@ -94,6 +102,14 @@ class DepartmentController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="The given data was invalid."),
      *              @OA\Property(property="errors", type="object", example={"name": {"The name field is required."}})
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *      )
      * )
@@ -150,6 +166,14 @@ class DepartmentController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="No query results for model [App\\Models\\Department] 99")
      *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
      *      )
      * )
      */
@@ -201,6 +225,14 @@ class DepartmentController extends Controller
      *      @OA\Response(
      *          response=422,
      *          description="Greška validacije"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
      *      )
      * )
      */
@@ -247,6 +279,14 @@ class DepartmentController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string"),
      *              @OA\Property(property="error_details", type="string", nullable=true)
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *      )
      * )

@@ -54,6 +54,14 @@ class FacultyController extends Controller
      *              @OA\Property(property="links", type="object"),
      *              @OA\Property(property="meta", type="object")
      *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
      *      )
      * )
      */
@@ -103,6 +111,14 @@ class FacultyController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string", example="The given data was invalid."),
      *              @OA\Property(property="errors", type="object", example={"first_name": {"The first name field is required."}})
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *      )
      * )
@@ -161,6 +177,14 @@ class FacultyController extends Controller
      *      @OA\Response(
      *          response=404,
      *          description="Profesor nije pronađen"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
      *      )
      * )
      */
@@ -213,6 +237,14 @@ class FacultyController extends Controller
      *      @OA\Response(
      *          response=422,
      *          description="Greška validacije"
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
+     *          )
      *      )
      * )
      */
@@ -261,6 +293,14 @@ class FacultyController extends Controller
      *              type="object",
      *              @OA\Property(property="message", type="string"),
      *              @OA\Property(property="error_details", type="string", nullable=true)
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Neautoriziran pristup / Potrebna autentifikacija.",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="message", type="string", example="Unauthenticated.")
      *          )
      *      )
      * )
