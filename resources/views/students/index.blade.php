@@ -10,7 +10,11 @@
         </div>
     @endif
 
-    <a href="{{ route('students.create') }}" class="btn btn-primary mb-3">Dodaj novog studenta</a>
+    @auth
+        @can('create students')
+            <a href="{{ route('students.create') }}" class="btn btn-primary mb-3">Dodaj novog studenta</a>
+        @endcan
+    @endauth
 
     @if($students->isEmpty())
         <p>Trenutno nema studenata u bazi.</p>
@@ -24,7 +28,11 @@
                     <th>Telefon</th>
                     <th>Datum upisa</th>
                     <th>CET bodovi</th>
-                    <th>Akcije</th>
+                    @auth
+                        @if(Auth::user()->can('edit students') || Auth::user()->can('delete students'))
+                            <th>Akcije</th>
+                        @endif
+                    @endauth
                 </tr>
             </thead>
             <tbody>
@@ -36,16 +44,24 @@
                         <td>{{ $student->phone }}</td>
                         <td>{{ $student->admission_date }}</td>
                         <td>{{ $student->cet_marks }}</td>
-                        <td>
-                        <a href="{{ route('students.edit', ['student' => $student->roll_num]) }}" class="btn btn-sm btn-warning">Uredi</a>
-
-<form action="{{ route('students.destroy', ['student' => $student->roll_num]) }}" method="POST" style="display:inline;">
-
-                                @csrf
-                                @method('DELETE')
-                                <button class="btn btn-sm btn-danger" onclick="return confirm('Jesi li siguran da želiš obrisati ovog studenta?')">Obriši</button>
-                            </form>
-                        </td>
+                        @auth
+                            @if(Auth::user()->can('edit students') || Auth::user()->can('delete students'))
+                                <td>
+                                    @can('edit students')
+                                        <a href="{{ route('students.edit', $student->roll_num) }}" class="btn btn-sm btn-warning">Uredi</a>
+                                    @endcan
+                                    @can('delete students')
+                                        <form action="{{ route('students.destroy', $student->roll_num) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Jesi li siguran da želiš obrisati ovog studenta?')">Obriši</button>
+                                        </form>
+                                    @endcan
+                                </td>
+                            @else
+                                <td></td>
+                            @endif
+                        @endauth
                     </tr>
                 @endforeach
             </tbody>

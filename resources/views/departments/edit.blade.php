@@ -2,11 +2,15 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Uredi odjel</h2>
+    <h2>Uredi odjel: {{ $department->name }}</h2>
 
     @if ($errors->any())
         <div class="alert alert-danger">
-            <ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
         </div>
     @endif
 
@@ -15,18 +19,26 @@
         @method('PUT')
 
         <div class="mb-3">
-            <label for="name" class="form-label">Naziv</label>
-            <input type="text" class="form-control" id="name" name="name" value="{{ $department->name }}" required>
+            <label for="name" class="form-label">Naziv Odjela</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $department->name) }}" required>
         </div>
 
         <div class="mb-3">
-            <label for="hod_id" class="form-label">HOD ID</label>
-            <input type="number" class="form-control" id="hod_id" name="hod_id" value="{{ $department->hod_id }}" required>
+            <label for="hod_id" class="form-label">Predstojnik Odjela (HOD):</label>
+            <select name="hod_id" id="hod_id" class="form-control" required>
+                <option value="">Odaberite predstojnika</option>
+                @if(isset($faculties))
+                    @foreach($faculties as $facultyMember)
+                        <option value="{{ $facultyMember->id }}" {{ old('hod_id', $department->hod_id) == $facultyMember->id ? 'selected' : '' }}>
+                            {{ $facultyMember->first_name }} {{ $facultyMember->last_name }} (ID: {{ $facultyMember->id }})
+                        </option>
+                    @endforeach
+                @endif
+            </select>
         </div>
 
-        <button type="submit" class="btn btn-success">Spremi promjene</button>
+        <button type="submit" class="btn btn-success">Spremi Izmjene</button>
         <a href="{{ route('departments.index') }}" class="btn btn-secondary">Natrag</a>
     </form>
 </div>
 @endsection
-

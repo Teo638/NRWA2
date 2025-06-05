@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container mt-4">
-    <h2>Uredi studenta</h2>
+    <h2>Uredi studenta: {{ $student->first_name }} {{ $student->last_name }} (Roll br: {{ $student->roll_num }})</h2>
 
     @if ($errors->any())
         <div class="alert alert-danger">
@@ -14,42 +14,56 @@
         </div>
     @endif
 
-    <form action="{{ url('students/' . $student->roll_num) }}" method="POST">
+    <form action="{{ route('students.update', $student->roll_num) }}" method="POST">
         @csrf
         @method('PUT')
 
         <div class="mb-3">
-            <label class="form-label">Ime</label>
-            <input type="text" name="first_name" class="form-control" value="{{ $student->first_name }}" required>
+            <label class="form-label">Broj indeksa (roll_num):</label>
+            <input type="text" class="form-control" value="{{ $student->roll_num }}" readonly>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Prezime</label>
-            <input type="text" name="last_name" class="form-control" value="{{ $student->last_name }}" required>
+            <label for="first_name" class="form-label">Ime</label>
+            <input type="text" name="first_name" id="first_name" class="form-control" value="{{ old('first_name', $student->first_name) }}" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Odjel (department_id)</label>
-            <input type="number" name="department_id" class="form-control" value="{{ $student->department_id }}" required>
+            <label for="last_name" class="form-label">Prezime</label>
+            <input type="text" name="last_name" id="last_name" class="form-control" value="{{ old('last_name', $student->last_name) }}" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Telefon</label>
-            <input type="text" name="phone" class="form-control" value="{{ $student->phone }}" required>
+            <label for="department_id" class="form-label">Odjel:</label>
+            <select name="department_id" id="department_id" class="form-control" required>
+                <option value="">Odaberite odjel</option>
+                @if(isset($departments))
+                    @foreach($departments as $department)
+                        <option value="{{ $department->id }}" {{ old('department_id', $student->department_id) == $department->id ? 'selected' : '' }}>
+                            {{ $department->name }} (ID: {{ $department->id }})
+                        </option>
+                    @endforeach
+                @endif
+            </select>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Datum upisa</label>
-            <input type="date" name="admission_date" class="form-control" value="{{ $student->admission_date }}" required>
+            <label for="phone" class="form-label">Telefon</label>
+            <input type="text" name="phone" id="phone" class="form-control" value="{{ old('phone', $student->phone) }}" required>
         </div>
 
         <div class="mb-3">
-            <label class="form-label">CET bodovi</label>
-            <input type="number" step="0.01" name="cet_marks" class="form-control" value="{{ $student->cet_marks }}" required>
+            <label for="admission_date" class="form-label">Datum upisa</label>
+            <input type="date" name="admission_date" id="admission_date" class="form-control" value="{{ old('admission_date', $student->admission_date ? \Carbon\Carbon::parse($student->admission_date)->format('Y-m-d') : '') }}" required>
         </div>
 
-        <button type="submit" class="btn btn-primary">Spremi</button>
-        <a href="{{ url('students') }}" class="btn btn-secondary">Natrag</a>
+        <div class="mb-3">
+            <label for="cet_marks" class="form-label">CET bodovi</label>
+            <input type="number" step="1" name="cet_marks" id="cet_marks" class="form-control" value="{{ old('cet_marks', $student->cet_marks) }}" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Spremi izmjene</button>
+        <a href="{{ route('students.index') }}" class="btn btn-secondary">Natrag</a>
     </form>
 </div>
 @endsection
